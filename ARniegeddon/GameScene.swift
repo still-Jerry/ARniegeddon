@@ -137,7 +137,9 @@ class GameScene: SKScene {
     let hitNodes = nodes(at: location)
     var hitBug: SKNode?
     for node in hitNodes {
-      if node.name == "bug" {
+      if node.name == NodeType.bug.rawValue ||
+        (node.name == NodeType.firebug.rawValue && hasBugspray) {
+
         hitBug = node
         break
       }
@@ -151,6 +153,8 @@ class GameScene: SKScene {
       let group = SKAction.group([Sounds.hit, action])
       let sequence = [SKAction.wait(forDuration: 0.3), group]
       hitBug.run(SKAction.sequence(sequence))
+      hasBugspray = false
+
     }
 
   }
