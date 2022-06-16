@@ -32,6 +32,7 @@ import ARKit
 //import GameplayKit
 
 class GameScene: SKScene {
+  var sight: SKSpriteNode!
   var isWorldSetUp = false
   var sceneView: ARSKView {
     return view as! ARSKView
@@ -58,6 +59,51 @@ class GameScene: SKScene {
     if !isWorldSetUp {
       setUpWorld()
     }
+    // You retrieve the light estimate from the session’s current frame.
+    guard let currentFrame = sceneView.session.currentFrame,
+      let lightEstimate = currentFrame.lightEstimate else {
+        return
+    }
+    // The measure of light is lumens, and 1000 lumens is a fairly bright light. Using the light estimate’s intensity of ambient light in the scene, you calculate a blend factor between 0 and 1, where 0 will be the brightest.
+    let neutralIntensity: CGFloat = 1000
+    let ambientIntensity = min(lightEstimate.ambientIntensity, neutralIntensity)
+    let blendFactor = 1 - ambientIntensity / neutralIntensity
+
+    // Using this blend factor, you calculate how much black should tint the bugs.
+    for node in children {
+      if let bug = node as? SKSpriteNode {
+        bug.color = .black
+        bug.colorBlendFactor = blendFactor
+      }
+    }
   }
 //*
+//  crosshair in the center of the screen
+  override func didMove(to view: SKView) {
+    sight = SKSpriteNode(imageNamed: "sight")
+    addChild(sight)
+  }
+  override func touchesBegan(_ touches: Set<UITouch>,
+                             with event: UIEvent?) {
+    let location = sight.position
+    let hitNodes = nodes(at: location)
+    var hitBug: SKNode?
+    for node in hitNodes {
+      if node.name == "bug" {
+        hitBug = node
+        break
+      }
+    }
+    run(Sounds.fire)
+    if let hitBug = hitBug,
+      let anchor = sceneView.anchor(for: hitBug) {
+      let action = SKAction.run {
+        self.sceneView.session.remove(anchor: anchor)
+      }
+      let group = SKAction.group([Sounds.hit, action])
+      let sequence = [SKAction.wait(forDuration: 0.3), group]
+      hitBug.run(SKAction.sequence(sequence))
+    }
+
+  }
 }
