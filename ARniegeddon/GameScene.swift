@@ -38,6 +38,14 @@ class GameScene: SKScene {
   var sceneView: ARSKView {
     return view as! ARSKView
   }
+//  changes the sight image when it is changed.
+  var hasBugspray = false {
+    didSet {
+      let sightImageName = hasBugspray ? "bugspraySight" : "sight"
+      sight.texture = SKTexture(imageNamed: sightImageName)
+    }
+  }
+
 //* Here you check whether the session has an initialized currentFrame. If the session doesn’t have a currentFrame, then you’ll have to try again later.
   private func setUpWorld() {
     
@@ -60,8 +68,17 @@ class GameScene: SKScene {
 
         let transform =
                currentFrame.camera.transform * translation
-        let anchor = ARAnchor(transform: transform)
-        sceneView.session.add(anchor: anchor)
+        let anchor = Anchor(transform: transform)
+        if let name = node.name,
+          let type = NodeType(rawValue: name) {
+          anchor.type = type
+          sceneView.session.add(anchor: anchor)
+          if anchor.type == .firebug {
+            addBugSpray(to: currentFrame)
+          }
+
+        }
+
       }
     }
     isWorldSetUp = true
@@ -89,6 +106,22 @@ class GameScene: SKScene {
         bug.colorBlendFactor = blendFactor
       }
     }
+    // You process all of the anchors attached to the current frame,
+    for anchor in currentFrame.anchors {
+      // You check whether the node for the anchor is of type bugspray. At the time of writing, there is an Xcode bug whereby subclasses of ARAnchor lose their properties, so you can’t check the anchor type directly.
+      guard let node = sceneView.node(for: anchor),
+        node.name == NodeType.bugspray.rawValue
+        else { continue }
+      // ARKit includes the framework simd, which provides a distance function. You use this to calculate the distance between the anchor and the camera.
+      let distance = simd_distance(anchor.transform.columns.3,
+        currentFrame.camera.transform.columns.3)
+      // If the distance is less than 10 centimeters, you remove the anchor from the session. This will remove the bug spray node as well.
+      if distance < 0.1 {
+        remove(bugspray: anchor)
+        break
+      }
+    }
+
   }
 //*
 //  crosshair in the center of the screen
@@ -121,4 +154,24 @@ class GameScene: SKScene {
     }
 
   }
+//  In this method, you add a new anchor of type bugspray with a random position. You randomize the x (side) and z (forward/back) values between -1 and 1 and the y (up/down) value between -0.5 and 0.5.
+  private func addBugSpray(to currentFrame: ARFrame) {
+    var translation = matrix_identity_float4x4
+    translation.columns.3.x = Float(drand48()*2 - 1)
+    translation.columns.3.z = -Float(drand48()*2 - 1)
+    translation.columns.3.y = Float(drand48() - 0.5)
+    let transform = currentFrame.camera.transform * translation
+    let anchor = Anchor(transform: transform)
+    anchor.type = .bugspray
+    sceneView.session.add(anchor: anchor)
+  }
+//  This is where you set up the SKAction and then mute it. This is also the wear of the SKNode attached to the anchor.
+
+  private func remove(bugspray anchor: ARAnchor) {
+    run(Sounds.bugspray)
+    sceneView.session.remove(anchor: anchor)
+    hasBugspray = true
+
+  }
+
 }
