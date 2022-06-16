@@ -32,6 +32,7 @@ import ARKit
 //import GameplayKit
 
 class GameScene: SKScene {
+  let gameSize = CGSize(width: 2, height: 2)
   var sight: SKSpriteNode!
   var isWorldSetUp = false
   var sceneView: ARSKView {
@@ -39,18 +40,30 @@ class GameScene: SKScene {
   }
 //* Here you check whether the session has an initialized currentFrame. If the session doesn’t have a currentFrame, then you’ll have to try again later.
   private func setUpWorld() {
-    guard let currentFrame = sceneView.session.currentFrame
+    
+    guard let currentFrame = sceneView.session.currentFrame,
+      // Here you load the scene, complete with bugs from Level1.sks.
+      let scene = SKScene(fileNamed: "Level1")
       else { return }
-//    Here you create a four-dimensional identity matrix
-    var translation = matrix_identity_float4x4
-//    This is what the translation matrix
-    translation.columns.3.z = -0.3
-//    Here you multiply the transform matrix of the current frame’s camera by your translation matrix. This results in a new transform matrix. When you create an anchor using this new matrix, ARKit will place the anchor at the correct position in 3D space relative to the camera.
-    let transform = currentFrame.camera.transform * translation
-//    Here you add an anchor to the session. The anchor is now a permanent feature in your 3D world (until you remove it). Each frame tracks this anchor and recalculates the transformation matrices of the anchors and the camera using the device’s new position and orientation.
-    let anchor = ARAnchor(transform: transform)
-    sceneView.session.add(anchor: anchor)
+      
+    for node in scene.children {
+      if let node = node as? SKSpriteNode {
+        var translation = matrix_identity_float4x4
+        // You calculate the position of the node relative to the size of the scene. ARKit translations are measured in meters. Turning 2D into 3D, you use the y-coordinate of the 2D scene as the z-coordinate in 3D space. Using these values, you create the anchor and the view’s delegate will add the SKSpriteNode bug for each anchor as before.
+        let positionX = node.position.x / scene.size.width
+        let positionY = node.position.y / scene.size.height
+        translation.columns.3.x =
+                Float(positionX * gameSize.width)
+        translation.columns.3.z =
+                -Float(positionY * gameSize.height)
+        translation.columns.3.y = Float(drand48() - 0.5)
 
+        let transform =
+               currentFrame.camera.transform * translation
+        let anchor = ARAnchor(transform: transform)
+        sceneView.session.add(anchor: anchor)
+      }
+    }
     isWorldSetUp = true
   }
 //*
@@ -82,6 +95,8 @@ class GameScene: SKScene {
   override func didMove(to view: SKView) {
     sight = SKSpriteNode(imageNamed: "sight")
     addChild(sight)
+    srand48(Int(Date.timeIntervalSinceReferenceDate))
+
   }
   override func touchesBegan(_ touches: Set<UITouch>,
                              with event: UIEvent?) {
