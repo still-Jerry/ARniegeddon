@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2789545528607660001E2715 /* MultipeerSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2789545428607660001E2715 /* MultipeerSession.swift */; };
+		27895457286079DF001E2715 /* MessageLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27895456286079DF001E2715 /* MessageLabel.swift */; };
 		2796B503285B1132001EC074 /* Level1.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2796B502285B1132001EC074 /* Level1.sks */; };
 		2796B505285B2AF5001EC074 /* Anchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2796B504285B2AF5001EC074 /* Anchor.swift */; };
 		8288976D1F33F3920035005F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8288976C1F33F3920035005F /* AppDelegate.swift */; };
@@ -26,6 +28,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2789545428607660001E2715 /* MultipeerSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerSession.swift; sourceTree = "<group>"; };
+		27895456286079DF001E2715 /* MessageLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageLabel.swift; sourceTree = "<group>"; };
 		2796B502285B1132001EC074 /* Level1.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Level1.sks; sourceTree = "<group>"; };
 		2796B504285B2AF5001EC074 /* Anchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Anchor.swift; sourceTree = "<group>"; };
 		828897691F33F3910035005F /* ARniegeddon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARniegeddon.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,17 +82,19 @@
 		8288976B1F33F3910035005F /* ARniegeddon */ = {
 			isa = PBXGroup;
 			children = (
-				2796B502285B1132001EC074 /* Level1.sks */,
-				8288976C1F33F3920035005F /* AppDelegate.swift */,
-				828897741F33F3930035005F /* GameViewController.swift */,
-				828897721F33F3920035005F /* GameScene.swift */,
-				8297D5111F3487F700C42D1F /* Types.swift */,
 				2796B504285B2AF5001EC074 /* Anchor.swift */,
-				828897761F33F3930035005F /* Main.storyboard */,
+				8288976C1F33F3920035005F /* AppDelegate.swift */,
 				828897791F33F3930035005F /* Assets.xcassets */,
-				8297D4FE1F34836C00C42D1F /* Sounds */,
-				8288977B1F33F3940035005F /* LaunchScreen.storyboard */,
+				828897721F33F3920035005F /* GameScene.swift */,
+				828897741F33F3930035005F /* GameViewController.swift */,
 				8288977E1F33F3940035005F /* Info.plist */,
+				8288977B1F33F3940035005F /* LaunchScreen.storyboard */,
+				2796B502285B1132001EC074 /* Level1.sks */,
+				828897761F33F3930035005F /* Main.storyboard */,
+				27895456286079DF001E2715 /* MessageLabel.swift */,
+				2789545428607660001E2715 /* MultipeerSession.swift */,
+				8297D4FE1F34836C00C42D1F /* Sounds */,
+				8297D5111F3487F700C42D1F /* Types.swift */,
 			);
 			path = ARniegeddon;
 			sourceTree = "<group>";
@@ -186,6 +192,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2789545528607660001E2715 /* MultipeerSession.swift in Sources */,
+				27895457286079DF001E2715 /* MessageLabel.swift in Sources */,
 				828897731F33F3920035005F /* GameScene.swift in Sources */,
 				2796B505285B2AF5001EC074 /* Anchor.swift in Sources */,
 				828897751F33F3930035005F /* GameViewController.swift in Sources */,
@@ -264,7 +272,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -315,7 +323,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -327,13 +335,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = M2VWTKZ35D;
 				INFOPLIST_FILE = ARniegeddon/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.razeware.ARniegeddon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rom.ARniegeddon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -341,13 +350,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = M2VWTKZ35D;
 				INFOPLIST_FILE = ARniegeddon/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.razeware.ARniegeddon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rom.ARniegeddon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

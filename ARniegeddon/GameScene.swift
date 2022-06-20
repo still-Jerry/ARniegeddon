@@ -94,18 +94,18 @@ class GameScene: SKScene {
       let lightEstimate = currentFrame.lightEstimate else {
         return
     }
-    // The measure of light is lumens, and 1000 lumens is a fairly bright light. Using the light estimate’s intensity of ambient light in the scene, you calculate a blend factor between 0 and 1, where 0 will be the brightest.
-    let neutralIntensity: CGFloat = 1000
-    let ambientIntensity = min(lightEstimate.ambientIntensity, neutralIntensity)
-    let blendFactor = 1 - ambientIntensity / neutralIntensity
-
-    // Using this blend factor, you calculate how much black should tint the bugs.
-    for node in children {
-      if let bug = node as? SKSpriteNode {
-        bug.color = .black
-        bug.colorBlendFactor = blendFactor
-      }
-    }
+//    // The measure of light is lumens, and 1000 lumens is a fairly bright light. Using the light estimate’s intensity of ambient light in the scene, you calculate a blend factor between 0 and 1, where 0 will be the brightest.
+//    let neutralIntensity: CGFloat = 1000
+//    let ambientIntensity = min(lightEstimate.ambientIntensity, neutralIntensity)
+//    let blendFactor = 1 - ambientIntensity / neutralIntensity
+//
+//    // Using this blend factor, you calculate how much black should tint the bugs.
+//    for node in children {
+//      if let bug = node as? SKSpriteNode {
+//        bug.color = .black
+//        bug.colorBlendFactor = blendFactor
+//      }
+//    }
     // You process all of the anchors attached to the current frame,
     for anchor in currentFrame.anchors {
       // You check whether the node for the anchor is of type bugspray. At the time of writing, there is an Xcode bug whereby subclasses of ARAnchor lose their properties, so you can’t check the anchor type directly.
